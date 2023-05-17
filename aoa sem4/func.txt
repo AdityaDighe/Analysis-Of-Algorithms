@@ -1,0 +1,333 @@
+void insertion_sort(int arr[],int n)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        int temp= arr[i];
+        j=i-1;
+        while(j>=0 && arr[j]>temp)
+        {
+            arr[j+1]=arr[j];
+            j=j-1;
+        }
+        arr[j+1]=temp;
+    }
+}
+
+
+
+
+
+
+
+void selection sort(int arr[], int n)
+{
+    int i,j;
+    for(i=0;i<n;i++)
+    {
+        int min=i;
+        for(j=i+1;j<n;j++)
+        {
+            if(arr[j]<arr[min])
+            {
+                min=j;
+            }
+        }
+        int temp=arr[min];
+        arr[min]=arr[i];
+        arr[i]=temp;
+    }
+}
+
+
+
+
+
+
+
+
+void merge_sort(int arr[],int start,int end)
+{
+    int mid;
+    
+    if(start<end)
+    {
+        mid=(start+end)/2;
+        merge_sort(arr,start,m);
+        merge_sort(arr,m+1,end);
+        merge(arr,start,mid,end);
+    }
+}
+
+void merge(int arr[],int start, int mid,int end)
+{
+    int i,j,k;
+    int n1=start-mid+1;
+    int n2=end-mid;
+    
+    int L[100],R[100];
+    
+    for(i=0;i<n1;i++)
+    {
+        L[i]=arr[start+i];
+    }
+    for(j=0;j<n2;j++)
+    {
+        R[j]=arr[mid+j+1];
+    }
+    
+    i=0,j=0,k=start;
+    while(i<n1 && j<n2)
+    {
+        if(L[i]<R[j])
+        {
+            arr[k]=L[i];
+            k++;
+            i++;
+        }
+        else
+        {
+            arr[k]=R[j];
+            j++;
+            k++;
+        }
+    }
+    
+    while(i<n1)
+    {
+        arr[k]=L[i];
+        k++;
+        i++;
+    }
+    while(j<n2)
+    {
+        arr[k]=R[j];
+        j++;
+        k++;
+    }
+}
+
+
+
+
+
+
+
+void quick_sort(int arr[],int low,int high)
+{
+    int pi;
+    
+    if(low<high)
+    {
+        pi=partition(arr,low,high);
+        
+        quick_sort(arr,low,pi-1);
+        quick_sort(arr,pi+1,high);
+    }
+}
+
+int partition(int arr[], int low, int high)
+{
+    int pivot=arr[high];
+    int i=low-1,j;
+    int temp;
+    
+    for(j=low;j<high;j++)
+    {
+        if(arr[j]<pivot)
+        {
+            temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+        }
+    }
+    temp=arr[high];
+    arr[high]=arr[i+1];
+    arr[i+1]=temp;
+    
+    return i+1;
+}
+
+
+
+
+
+
+
+int binarySearch(int arr[], int l, int r, int x)
+{
+ int mid;   
+ if (r>=l)
+ {
+  mid=(r+l)/2;
+  if (arr[mid]==arr[x])
+  {
+   return mid;
+  }
+  if (arr[mid]>arr[x])
+  {
+   return binarySearch(arr, l, mid-1, x);
+  }
+  return binarySearch(arr, mid+1, r, x);
+ }
+ return -1;
+}
+
+
+
+
+
+
+
+
+void min_max(int i,int j)
+{
+    int max1,min1;
+    int mid;
+
+    if(i==j)
+    {
+        min=max=arr[i];
+    }
+
+    else
+    {
+        if(i==j-1)
+        {
+            if(arr[i]<arr[j])
+            {
+                max=arr[j];
+                min=arr[i];
+            }
+            else
+            {
+                max=arr[i];
+                min=arr[j];
+            }
+        }
+
+        else
+        {
+            mid=(i+j)/2;
+            min_max(i,mid);
+            max1=min;
+            max1=max;
+            min_max(mid+1,j);
+            if(min1<min)
+            {
+                min=min1;
+            }
+            if(max1>max)
+            {
+                max=max1;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+void dijkstra(int graph[V][V], int src)
+{
+ int dist[V];
+ bool sptSet[V];
+ for (int i = 0; i < V; i++)
+ {
+  dist[i] = INT_MAX;
+  sptSet[i] = false; 
+ }
+ dist[src] = 0;
+
+ for (int count = 0; count < V - 1; count++) 
+ {
+  int u = minDistance(dist, sptSet);
+  sptSet[u] = true;
+  for (int v = 0; v < V; v++)
+  {
+   if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX && dist[u] + graph[u][v] < dist[v])
+   {
+    dist[v] = dist[u] + graph[u][v];
+   }
+  }
+ }
+ printSolution(dist);
+}
+
+int minDistance(int dist[], bool sptSet[])
+{
+ int min = INT_MAX, min_index;
+ for (int v = 0; v < V; v++)
+ {
+  if (sptSet[v] == false && dist[v] <= min)
+  {
+    min = dist[v], min_index = v;
+  }
+ } 
+ return min_index;
+}
+
+
+
+
+
+
+
+
+//for knapsack fraction check code
+
+
+
+
+
+
+
+void graphColoring() {
+   int color[NODE];
+   color[0] = 0;    //Assign first color for the first node
+   bool colorUsed[NODE];    //Used to check whether color is used or not
+
+   for(int i = 1; i<NODE; i++)
+      color[i] = -1;    //initialize all other vertices are unassigned
+
+   for(int i = 0; i<NODE; i++)
+      colorUsed[i] = false;    //initially any colors are not chosen
+         
+   for(int u = 1; u<NODE; u++) {    //for all other NODE - 1 vertices
+      for(int v = 0; v<NODE; v++) {
+         if(graph[u][v]){
+            if(color[v] != -1)    //when one color is assigned, make it unavailable
+               colorUsed[color[v]] = true;
+         }
+     }
+
+     int col;
+     for(col = 0; col<NODE; col++)
+        if(!colorUsed[col])    //find a color which is not assigned
+           break;
+         
+     color[u] = col;    //assign found color in the list
+         
+     for(int v = 0; v<NODE; v++) {    //for next iteration make color availability to false
+        if(graph[u][v]) {
+           if(color[v] != -1)
+              colorUsed[color[v]] = false;
+        }
+     }  
+  }
+   
+  for(int u = 0; u<NODE; u++)
+     printf("Color: %d, Assigned with Color: %d\n",u,color[u]);
+}
+
+
+
+
+
+
+
+//do krushal's 
