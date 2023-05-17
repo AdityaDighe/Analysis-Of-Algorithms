@@ -1,55 +1,66 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<time.h>
+#include<limits.h>
 
-typedef struct {
-    double weight;
-    double value;
-    double ratio;
-} Item;
+struct object
+{
+  int value;
+  int weight;
+};
 
-int compare(const void *a, const void *b) {
-    Item *itemA = (Item *)a;
-    Item *itemB = (Item *)b;
-    return (itemB->ratio - itemA->ratio) > 0 ? 1 : -1;
-}
-
-double fractionalKnapsack(int capacity, Item items[], int n) {
-    qsort(items, n, sizeof(Item), compare);
-
-    double totalValue = 0.0;
-    int i;
-
-    for (i = 0; i < n; i++) {
-        if (capacity <= 0)
-            break;
-
-        if (items[i].weight <= capacity) {
-            totalValue += items[i].value;
-            capacity -= items[i].weight;
-        } else {
-            totalValue += (capacity / items[i].weight) * items[i].value;
-            break;
+void main()
+{
+    struct object p[]={{1,2},{2,3},{3,4},{4,5},{5,6}};
+    int capacity=10;
+    
+    int n=sizeof(p)/sizeof(p[0]);
+    float ratio[100]={0};
+    
+    for(int i=0;i<n;i++)
+    {
+        ratio[i]=(float)p[i].value/(float)p[i].weight;
+    }
+    
+    float solarray[100]={0};
+    
+    while(capacity!=0)
+    {
+        int max=INT_MIN;
+        int index;
+        for(int i=0;i<n;i++)
+        {
+            if(max<ratio[i])
+            {
+                max=ratio[i];
+                index=i;
+            }
+        }
+        
+        if(p[index].weight<capacity)
+        {
+            ratio[index]=INT_MIN;
+            capacity=capacity-p[index].weight;
+            solarray[index]=1;
+        }
+        else
+        {
+            ratio[index]=INT_MIN;
+            solarray[index]=(float)capacity/(float)p[index].weight;
+            capacity=0;
         }
     }
-
-    return totalValue;
-}
-
-int main() {
-    int capacity = 50;
-    Item items[] = {
-        {10, 60, 0},  // item 1: weight = 10, value = 60
-        {20, 100, 0}, // item 2: weight = 20, value = 100
-        {30, 120, 0}  // item 3: weight = 30, value = 120
-    };
-    int n = sizeof(items) / sizeof(items[0]);
-
-    for (int i = 0; i < n; i++) {
-        items[i].ratio = items[i].value / items[i].weight;
+    
+    int total=0;
+    for(int i=0;i<n;i++)
+    {
+        if(solarray[i]!=0)
+        {
+            printf("%d : %f\n",p[i].value,solarray[i]);
+            total=total+p[i].value;
+        }
     }
-
-    double maxValue = fractionalKnapsack(capacity, items, n);
-    printf("Maximum value: %.2f\n", maxValue);
-
-    return 0;
+    printf("The Max value : %d\n",total);
 }
